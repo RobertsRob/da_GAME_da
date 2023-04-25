@@ -56,6 +56,10 @@ class Player extends gameObjPlayer {
     {
         return other.x < this.x+this.w && other.x+other.w > this.x && other.y < this.y+this.h && other.y+other.h > this.y;
     }
+    collisionVy(other, fps)
+    {
+        return other.x < this.x+this.w && other.x+other.w > this.x && other.y < this.y+this.h+this.fallF/(fps/4) && other.y+other.h > this.y;
+    }
 
     right(fps)
     {

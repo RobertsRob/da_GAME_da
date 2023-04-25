@@ -10,6 +10,8 @@ let dforce = 30;//30
 let force = dforce;
 let canJump = true;
 
+let rd = false;
+
 let gameY = 0;
 let previosPlatformCords = 200;
 const platformDistance = 250;
@@ -78,21 +80,40 @@ function updateFast()
         player.collisionPlatfDetected();
         canJump = true;
         player.fallZero();
+
+        player.setPos(posPl.x, platform.y-sizePl.h);
     }
+
     // if(player.collision(platformSmall) == true && posPl.y+sizePl.h < posSm.y+15)//10
     // {
     //     player.collisionPlatfDetected();
     //     canJump = true;
     // }
 
-    for (let i = 0; i < platforms.length; i++) {
+    for (let i = 0; i < platforms.length; i++) 
+    {
         let posPlatform = platforms[i].getPos();
+        let sizePlatform = platforms[i].getSize();
         if(player.collision(platforms[i]) == true && posPl.y+sizePl.h < posPlatform.y+15)//10
         {
             player.collisionPlatfDetected();
             canJump = true;
             player.fallZero();
+
+            player.setPos(posPl.x, posPlatform.y-sizePl.h);
         }
+
+        if(player.collisionVy(platforms[i], fps) == true && posPl.y+sizePl.h < posPlatform.y+15)//10
+        {
+            player.collisionPlatfDetected();
+            canJump = true;
+            player.fallZero();
+
+
+            player.setPos(posPl.x, posPlatform.y-sizePl.h);
+        }
+
+
     }
     // variables ------------------------------------
     fps++;
@@ -187,15 +208,16 @@ function updateFast()
         }
     }
     //down-------------------------------------------------------
-    if(posPl.y > myCanvas.height-100)
+    if(posPl.y > myCanvas.height-200)
     {
-        let fall = player.fallFF();
-        fall /= 10;
-        gameY -= fall;
+ 
         let fallT = player.fallFaF();
         if(jump == false && fallT == true)
         {
-            // platformSmall.setPos(posSm.x, posSm.y-fall);
+            let fall = player.fallFF();
+            fall /= 10;
+            gameY -= fall;
+
             platform.setPos(posPLB.x, posPLB.y-fall);
 
             for (let i = 0; i < platforms.length; i++) {
